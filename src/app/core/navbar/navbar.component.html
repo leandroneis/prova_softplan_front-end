@@ -12,7 +12,7 @@
     <li class="navbar-usuario">{{ auth.jwtPayload?.nome }}</li>
     <li class="navbar-menuitem" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_PESSOA')"><a routerLink="/pessoas"><i class="fa fa-user-o"></i> Pessoas</a></li>
     <li class="navbar-menuitem" routerLinkActive="ativo"><a routerLink="/source"><i class="fa fa-github" aria-hidden="true"></i> Código Fonte</a></li>
-    <li class="navbar-menuitem" routerLinkActive="ativo"><a href="http://localhost:8080/swagger-ui.html"><i class="fa fa-book" aria-hidden="true"></i> Swagger</a></li>
+    <li class="navbar-menuitem" routerLinkActive="ativo"><a href="{{navbarUrl}}"><i class="fa fa-book" aria-hidden="true"></i> Swagger</a></li>
     <li class="navbar-menuitem"><a href="javascript:;" (click)="logout()"> <i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
   </ul>
 
