@@ -1,3 +1,4 @@
+
 import { Title } from '@angular/platform-browser';
 import { Component, OnInit } from '@angular/core';
 import { ErrorHandlerService } from './../../core/error-handler.service';
@@ -22,7 +23,13 @@ export class CodigoFonteComponent implements OnInit {
   carregarUrl() {
     return this.sourceService.buscar()
       .then(resposta => {
-        this.urlCodigos = [ resposta.urlBackend, resposta.urlFrontend ];
+        console.log(JSON.stringify(resposta));
+        this.urlCodigos = [ 
+          resposta.urlBackend, 
+          resposta.urlFrontend,
+          resposta.urlBackendDocker,
+          resposta.urlFrontendDocker 
+        ];
       })
       .catch(erro => this.errorHandler.handle(erro));
   }
