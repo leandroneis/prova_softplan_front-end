@@ -1,0 +1,30 @@
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+        <form autocomplete="off" #f="ngForm" class="login100-form validate-form">
+					<span class="login100-form-title p-b-33">
+						Autenticação
+					</span>
+
+        <div class="wrap-input100 validate-input">
+          <input pInputText type="email" name="usuario" placeholder="E-mail" ngModel required #usuario class="input100">
+          <span class="focus-input100-1"></span>
+          <span class="focus-input100-2"></span>
+        </div>
+
+        <div class="wrap-input100 rs1 validate-input">
+          <input pInputText type="password" name="senha" placeholder="Senha" ngModel required #senha class="input100">
+          <span class="focus-input100-1"></span>
+          <span class="focus-input100-2"></span>
+        </div>
+
+        <div class="container-login100-form-btn m-t-20">
+          <button pButton type="submit" label="Entrar" [disabled]="!f.valid"
+                  (click)="login(usuario.value, senha.value); senha.value = '';" class="login100-form-btn">
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

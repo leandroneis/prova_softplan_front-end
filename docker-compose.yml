@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  pessoaui:
+    image: prova_softplan_leandro_neis
+    build: .
+    ports:
+      - 4200:4200

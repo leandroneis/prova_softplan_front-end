@@ -1,0 +1,73 @@
+<div class="container">
+  <form autocomplete="off" (ngSubmit)="salvar()" [formGroup]="formulario">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1>{{ editando ? 'Edição de' : 'Novo' }} Pessoa</h1>
+      </div>
+
+      <div class="ui-g-12 ui-fluid">
+        <label>Nome</label>
+        <input pInputText type="text" name="nome" formControlName="nome">
+
+        <app-message [control]="formulario.get('nome')" error="obrigatoriedade" text="Informe o nome"></app-message>
+        <app-message [control]="formulario.get('nome')" error="tamanhoMinimo"
+                     text="Mínimo de {{ formulario.get('nome').errors?.tamanhoMinimo?.tamanho }} caracteres"></app-message>
+      </div>
+
+      <div class="ui-g-6 ui-md-2 ui-fluid">
+        <label>CPF</label>
+        <p-inputMask name="cpf" mask="999.999.999-99" formControlName="cpf"></p-inputMask>
+
+        <app-message [control]="formulario.get('cpf')" error="obrigatoriedade" text="Informe o CPF"></app-message>
+        <app-message [control]="formulario.get('cpf')" error="cpfNotValid" text="CPF informado inválido!"></app-message>
+      </div>
+
+      <div class="ui-g-4 ui-md-2 ui-fluid">
+        <div class="ui-g-12">
+          <p-radioButton name="sexo" value="Masculino" label="Masculino" formControlName="sexo"></p-radioButton>
+        </div>
+        <div class="ui-g-12">
+          <p-radioButton name="sexo" value="Feminino" label="Feminino" formControlName="sexo"></p-radioButton>
+        </div>
+      </div>
+
+      <div class="ui-g-4 ui-md-2 ui-fluid">
+        <label>Data de Nascimento</label>
+        <p-calendar name="dataNascimento" dateFormat="dd/mm/yy" [inline]="false" [readonlyInput]="false"
+                    [showIcon]="true" [locale]="pt"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100"
+                    [showIcon]="false" formControlName="dataNascimento"></p-calendar>
+
+        <app-message [control]="formulario.get('dataNascimento')" error="obrigatoriedade"
+                     text="Informe uma data de nascimento"></app-message>
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>E-mail</label>
+        <input pInputText type="email" name="email" formControlName="email">
+        <app-message [control]="formulario.get('email')" error="email"
+                     text="Informe um e-mail válido"></app-message>
+      </div>
+
+      <div class="ui-g-12 ui-md-3 ui-fluid">
+        <label>Naturalidade</label>
+        <input pInputText type="text" name="naturalidade"
+               formControlName="naturalidade">
+      </div>
+
+      <div class="ui-g-12 ui-md-3 ui-fluid">
+        <label>Nacionalidade</label>
+        <input pInputText type="text" name="nacionalidade"
+               formControlName="nacionalidade">
+      </div>
+
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Salvar" [disabled]="formulario.invalid"
+                [ngStyle]="{'margin-right':'2px'}"></button>
+        <button pButton type="button" label="Novo" class="ui-button-info" (click)="nova()"></button>
+        <a routerLink="/pessoas">Voltar para a pesquisa</a>
+      </div>
+    </div>
+  </form>
+</div>
