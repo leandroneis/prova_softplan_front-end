@@ -2,13 +2,10 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
-
 import {MessageService} from 'primeng/components/common/messageservice';
-
 import {ErrorHandlerService} from './../../core/error-handler.service';
 import {PessoaService} from './../pessoa.service';
 import {Pessoa} from './../../core/model';
-
 
 @Component({
   selector: 'app-pessoa-cadastro',
@@ -54,9 +51,76 @@ export class PessoaCadastroComponent implements OnInit {
       dataDoCadastro: [],
       dataDaAlteracao: []
     });
+  } 
+
+
+
+  carregarPessoa(codigo: number) {
+    this.pessoaService.buscarPorCodigo(codigo)
+      .then(pessoa => {
+        this.formulario.patchValue(pessoa);
+        this.atualizarTituloEdicao();
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
+  salvar() {
+    if (this.editando) {
+      this.atualizarPessoa();
+    } else {
+      this.adicionarPessoa();
+    }
+  }
 
+  adicionarPessoa() {
+    this.pessoaService.adicionar(this.formulario.value)
+      .then(pessoaAdicionada => {
+        this.messageService.add({severity: 'success', detail: 'Pessoa adicionada com sucesso!'});
+        this.router.navigate(['/pessoas', pessoaAdicionada.codigo]);
+      })
+      .catch(erro => this.errorHandler.handle(erro));
+  }
+
+  atualizarPessoa() {
+    this.pessoaService.atualizar(this.formulario.value)
+      .then(pessoa => {
+        this.formulario.patchValue(pessoa);
+
+        this.messageService.add({ severity: 'success', detail: 'Pessoa alterada com sucesso!' });
+        this.atualizarTituloEdicao();
+      })
+      .catch(erro => this.errorHandler.handle(erro));
+  }
+
+  nova() {
+    this.formulario.reset();
+
+    setTimeout(function() {
+      this.pessoa = new Pessoa();
+    }.bind(this), 1);
+
+    this.router.navigate(['/pessoas/nova']);
+  }
+
+  atualizarTituloEdicao() {
+    this.title.setTitle(`Edição de pessoa: ${this.formulario.get('nome').value}`);
+  }
+
+  calendarioEmPtBr() {
+    this.pt = {
+      firstDayOfWeek: 0,
+      dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+      dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+      dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+      // tslint:disable-next-line:max-line-length
+      monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dev'],
+      today: 'Hoje',
+      clear: 'Limpar',
+      dateFormat: 'dd/mm/yy',
+      weekHeader: 'Semana'
+    };
+  }
 
   validaEmail(input: FormControl) {
     const emailRegEx = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
@@ -129,76 +193,8 @@ export class PessoaCadastroComponent implements OnInit {
     }
     return null;
   }
-
   get editando() {
     return Boolean(this.formulario.get('codigo').value);
-  }
-
-  carregarPessoa(codigo: number) {
-    this.pessoaService.buscarPorCodigo(codigo)
-      .then(pessoa => {
-        this.formulario.patchValue(pessoa);
-        this.atualizarTituloEdicao();
-      })
-      .catch(erro => this.errorHandler.handle(erro));
-  }
-
-  salvar() {
-    if (this.editando) {
-      this.atualizarPessoa();
-    } else {
-      this.adicionarPessoa();
-    }
-  }
-
-  adicionarPessoa() {
-    this.pessoaService.adicionar(this.formulario.value)
-      .then(pessoaAdicionada => {
-        this.messageService.add({severity: 'success', detail: 'Pessoa adicionada com sucesso!'});
-        this.router.navigate(['/pessoas', pessoaAdicionada.codigo]);
-      })
-      .catch(erro => this.errorHandler.handle(erro));
-  }
-
-  atualizarPessoa() {
-    this.pessoaService.atualizar(this.formulario.value)
-      .then(pessoa => {
-        this.formulario.patchValue(pessoa);
-
-        this.messageService.add({ severity: 'success', detail: 'Pessoa alterada com sucesso!' });
-        this.atualizarTituloEdicao();
-      })
-      .catch(erro => this.errorHandler.handle(erro));
-  }
-
-  nova() {
-    this.formulario.reset();
-
-    setTimeout(function() {
-      this.pessoa = new Pessoa();
-    }.bind(this), 1);
-
-    this.router.navigate(['/pessoas/nova']);
-  }
-
-  atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de pessoa: ${this.formulario.get('nome').value}`);
-  }
-
-  calendarioEmPtBr() {
-    this.pt = {
-      firstDayOfWeek: 0,
-      dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-      dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-      dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-      // tslint:disable-next-line:max-line-length
-      monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-      monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dev'],
-      today: 'Hoje',
-      clear: 'Limpar',
-      dateFormat: 'dd/mm/yy',
-      weekHeader: 'Semana'
-    };
   }
 
 }

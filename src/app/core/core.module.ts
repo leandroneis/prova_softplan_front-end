@@ -18,7 +18,7 @@ import {PessoaService} from './../pessoas/pessoa.service';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NaoAutorizadoComponent} from './nao-autorizado.component';
 import {PaginaNaoEncontradaComponent} from './pagina-nao-encontrada.component';
-import {PessoaHttp} from '../seguranca/pessoa-http';
+import {PessoaHttpInterceptor} from '../seguranca/pessoa-http-interceptor';
 import {SourcesModule} from '../sources/sources.module';
 
 registerLocaleData(localePt);
@@ -50,7 +50,7 @@ registerLocaleData(localePt);
     ErrorHandlerService,
     AuthService,
     SourceService,
-    PessoaHttp,
+    PessoaHttpInterceptor,
 
     ConfirmationService,
     JwtHelperService,
