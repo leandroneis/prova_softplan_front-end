@@ -4,6 +4,7 @@ import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
 import {LogoutService} from './../../seguranca/logout.service';
 import {ErrorHandlerService} from './../error-handler.service';
 import {AuthService} from './../../seguranca/auth.service';
+import {environment} from 'environments/environment';
 
 @Component({
     selector: 'app-navbar',
@@ -15,13 +16,14 @@ export class NavbarComponent implements OnInit {
     exibindoMenu = false;
     isFocusInsideComponent = false;
 
-
+    navbarUrl: string;
     constructor(
         public auth: AuthService,
         private logoutService: LogoutService,
         private errorHandler: ErrorHandlerService,
         private router: Router
     ) {
+        this.navbarUrl = `${environment.apiUrl}/swagger-ui.html`;
     }
 
     ngOnInit() {
